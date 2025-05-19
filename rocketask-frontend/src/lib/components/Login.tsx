@@ -7,46 +7,48 @@ import { setCookie } from 'cookies-next';
 import * as API from "../HttpClient";
 import { session } from "../redux/slices/user.slice";
 
+// EL CODIGO COMENTADO SOLO ES UNA VERSION DE COMO HARIA UN FORMULARIO DE INICIO DE SESION EN REACT
+
 const Login = () => {
 	const dispatch = useDispatch()
 	const router = useRouter()
-	const [header, setHeader] = useState({
-		title: 'Please enter your credentials to continue.',
-		status: 'OK'
-	})
+	// const [header, setHeader] = useState({
+	// 	title: 'Please enter your credentials to continue.',
+	// 	status: 'OK'
+	// })
 	const loginForm = useRef<{ user: string; password: string }>({
-		user: "",
-		password: "",
+		user: "user",
+		password: "1234",
 	});
 
 	const handleSubmitAuth = async (e) => {
 		e.preventDefault();
 
 		const res = await API.post('users/auth', loginForm.current)
-		if (res?.msg) {
-			setHeader({title: res.msg, status: 'ERROR'})
-			setTimeout(() => {
-				setHeader({
-					title: 'Please enter your credentials to continue.',
-					status: 'OK'
-				})
-				return;
-			},3000)
-			return;
-		};
+		// if (res?.msg) {
+		// 	setHeader({title: res.msg, status: 'ERROR'})
+		// 	setTimeout(() => {
+		// 		setHeader({
+		// 			title: 'Please enter your credentials to continue.',
+		// 			status: 'OK'
+		// 		})
+		// 		return;
+		// 	},3000)
+		// 	return;
+		// };
 
 		dispatch(session(res))
 		setCookie("session", res)
 		router.push('/dashboard')
 	};
 
-	const eventInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-		loginForm.current[e.target.name] = e.target.value;
-	};
+	// const eventInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	loginForm.current[e.target.name] = e.target.value;
+	// };
 
 	return (
-		<section>
-			<div className="shadow-md p-8 rounded-lg text-center mt-10">
+		<section className="w-full mt-5">
+			{/* <div className="shadow-md p-8 rounded-lg text-center mt-10">
 				<header>
 					<h2 className="text-2xl font-semibold">Login</h2>
 					<p className={`mt-2 text-sm font-medium ${header.status === 'OK' ? 'text-gray-500' : 'text-red-500'}`}>
@@ -74,11 +76,9 @@ const Login = () => {
 							onChange={eventInput}
 						/>
 					</div>
-					<button className="bg-green-300 py-3 rounded-sm cursor-pointer font-medium mt-5">
-						Login
-					</button>
 				</form>
-			</div>
+			</div> */}
+			<button className="bg-green-300 py-3 rounded-sm cursor-pointer font-medium mt-5 w-full active:scale-90" onClick={handleSubmitAuth}>Login</button>
 		</section>
 	);
 };
