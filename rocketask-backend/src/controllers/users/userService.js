@@ -21,7 +21,7 @@ class userManager {
 			if (!userDB) throw `Account not saved in DB`;
 
 			const profile = {
-				uid: userDB.uuid,
+				uuid: userDB.uuid,
 				user: userDB.user,
 				access_token: generateAccessToken({ id: user.uuid, email: user.email }),
 			};
