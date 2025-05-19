@@ -37,9 +37,6 @@ Create a fullstack application where users can:
 - TypeScript is optional.
 - Submit as a public GitHub repo or ZIP file.
 
-## Estimated Time
-4 to 6 hours.
-
 ## How to Run
 1. **Backend**:
    - Navigate to the `backend` folder.
