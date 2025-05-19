@@ -176,3 +176,4 @@
 {"message":"Account not saved in DB","level":"error"}
 {"message":"Account not saved in DB","level":"error"}
 {"message":"Account not saved in DB","level":"error"}
+{"message":"Listening on port 5173 in development mode","level":"info"}
