@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../redux/hooks";
 import { setCookie } from 'cookies-next';
 import * as API from "../HttpClient";
 import { session } from "../redux/slices/user.slice";
@@ -10,7 +10,7 @@ import { session } from "../redux/slices/user.slice";
 // EL CODIGO COMENTADO SOLO ES UNA VERSION DE COMO HARIA UN FORMULARIO DE INICIO DE SESION EN REACT
 
 const Login = () => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 	const router = useRouter()
 	// const [header, setHeader] = useState({
 	// 	title: 'Please enter your credentials to continue.',
