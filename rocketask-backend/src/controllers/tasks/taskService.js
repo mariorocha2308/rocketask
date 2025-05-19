@@ -8,6 +8,7 @@ const DB = useMemory;
 class taskManager {
 	async postDocument(req) {
 		const { title = '', description = '' } = req.body;
+		const id = generateUUID()
 
 		try {
 			for (var [key, value] of Object.entries({ title, description })) {
@@ -17,9 +18,9 @@ class taskManager {
 				else continue
 			}
 
-			DB.set(DB_KEYS.TASK, { id: generateUUID(), title, description });
+			DB.set(DB_KEYS.TASK, { id, title, description, status: 'pending', createdAt: new Date().toISOString() });
 
-			return DB.get(DB_KEYS.TASK)
+			return DB.get(DB_KEYS.TASK).find((task) => task.id === id);
 		} catch (error) {
 			logger.error(error);
 			throw error;
