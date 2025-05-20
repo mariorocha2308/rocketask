@@ -1,4 +1,4 @@
-const base: string = "http://localhost:5800/api/v1";
+const base: string = `${process.env.NEXT_PUBLIC_API_URL}/api/v1`;
 
 interface SendOptions {
 	method: string;
