@@ -59,40 +59,43 @@ const TaskList = () => {
 				<h3 className="text-xl font-semibold text-start">List Tasks</h3>
 				<button className='bg-blue-400 py-2 px-4 rounded-sm text-sm font-medium active:scale-90 cursor-pointer' onClick={openModal}>New task</button>
 			</header>
-			{open && <TaskForm onCancel={() => setOpen(false)} data={task} />}
-			<div className="overflow-x-auto mt-6">
-				<table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-					<thead className="bg-gray-50">
-						<tr>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+			{open ? <TaskForm onCancel={() => setOpen(false)} data={task} /> : (
+				<div className="overflow-x-auto mt-6">
+					<table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+						<thead className="bg-gray-50">
+							<tr>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+								<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
 
-						</tr>
-					</thead>
-					<tbody className="bg-white divide-y divide-gray-200">
-						{listTasks.map((task) => (
-							<tr key={task.id} className="hover:bg-gray-50">
-								<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{task.id}</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.title}</td>
-								<td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{task.description}</td>
-								<td className="px-6 py-4 whitespace-nowrap">
-									<span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(task.status)}`}>
-										{task.status.charAt(0).toUpperCase() + task.status.slice(1).replace("-", " ")}
-									</span>
-								</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(task.createdAt)}</td>
-								<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-									<button className="bg-black text-white px-6 py-1 rounded-2xl text-sm font-semibold cursor-pointer active:scale-90" onClick={() => openModal(task)}>Edit</button>
-								</td>
 							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
+						</thead>
+						<tbody className="bg-white divide-y divide-gray-200">
+							{listTasks.map((task) => (
+								<tr key={task.id} className="hover:bg-gray-50">
+									<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{task.id}</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{task.title}</td>
+									<td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{task.description}</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										<span className={`px-2 py-1 text-xs rounded-full ${getStatusClasses(task.status)}`}>
+											{task.status.charAt(0).toUpperCase() + task.status.slice(1).replace("-", " ")}
+										</span>
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(task.createdAt)}</td>
+									<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+										{task.id !== 1 && task.id !== 2 && (
+											<button className="bg-black text-white px-6 py-1 rounded-2xl text-sm font-semibold cursor-pointer active:scale-90" onClick={() => openModal(task)}>Edit</button>
+										)}
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			)}
 		</div>
 	)
 }

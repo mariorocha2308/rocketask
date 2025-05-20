@@ -16,8 +16,11 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		if (getCookie('session')) {
-			const user = getCookie('session')
-			dispatch(session(JSON.parse(user)))
+			const userStore = getCookie('session' )
+			const sessionStringify = JSON.stringify(userStore)
+			const sessionParse = JSON.parse(sessionStringify)
+
+			dispatch(session(JSON.parse(sessionParse)))
 		}
 	}, [])
 

@@ -10,11 +10,13 @@ const TaskForm = (props) => {
 	const taskForm = useRef({
 		title: props.data.title || "",
 		description: props.data.description || "",
-		token: ""
 	});
 
 	const handleTask = (e) => {
 		e.preventDefault();
+		if(Object.values(taskForm.current).includes('')) return
+
+		console.log(taskForm.current)
 
 		const task = {
 			id: props?.data?.id,
@@ -33,8 +35,8 @@ const TaskForm = (props) => {
 	};
 
 	return (
-		<section className="flex flex-col mt-5 bg-white p-8 rounded-sm">
-			<form className="flex flex-col w-1/2 m-auto" onSubmit={handleTask}>
+		<section className="flex flex-col mt-10 bg-white p-8 rounded-sm shadow-md sm:w-full md:max-w-2xl m-auto">
+			<form className="flex flex-col w-full m-auto" onSubmit={handleTask}>
 				<h4 className="font-semibold">Create new task</h4>
 				<input
 					type="text"
@@ -59,7 +61,7 @@ const TaskForm = (props) => {
 						Cancel
 					</button>
 					<button className="bg-blue-400 py-2 px-4 rounded-sm text-sm font-medium active:scale-90 cursor-pointer">
-						Create
+						{props.data.id ? "Edit" : "Create"}
 					</button>
 				</footer>
 			</form>
