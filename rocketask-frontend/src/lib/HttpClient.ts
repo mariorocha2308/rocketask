@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+
 const base: string = `${process.env.NEXT_PUBLIC_API_URL}/api/v1`;
 
 interface SendOptions {
