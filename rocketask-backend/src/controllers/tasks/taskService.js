@@ -43,7 +43,7 @@ class taskManager {
 			const task = DB.update(DB_KEYS.TASK, id, { title, description})
 
 			if(task) {
-				return task;
+				return DB.get(DB_KEYS.TASK).find((task) => task.id === id);
 			} else {
 				throw "Task was not created successfully"
 			}

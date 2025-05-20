@@ -37,7 +37,7 @@ class MemoryStore {
 			}
 		}
 
-		return `Item was created success`;
+		return collection;
 	}
 }
 
