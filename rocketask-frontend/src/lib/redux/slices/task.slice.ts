@@ -1,5 +1,21 @@
 import * as API from '@/lib/HttpClient'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
+export const postTask = createAsyncThunk(
+  'tasks/postTask',
+  async ({ title, description, token }: {title: string, description: string, token: string}) => {
+    const response = await API.post('/tasks', { title, description }, token);
+    return response.data;
+  }
+);
+
+export const putTask = createAsyncThunk(
+  'tasks/putTask',
+  async ({ id, title, description, token }: {id: number, title: string, description: string, token: string}) => {
+    const response = await API.put(`/tasks/${id}`, { title, description }, token);
+    return response.data;
+  }
+);
 
 const taskSlice = createSlice({
   name: 'task',
@@ -19,49 +35,23 @@ const taskSlice = createSlice({
         status: 'completed',
         createdAt: new Date().toISOString()
 
-      },
-      {
-        id: 3,
-        title: 'Task 3',
-        description: 'Description of Task 3',
-        status: 'in-progress',
-        createdAt: new Date().toISOString(),
-
-      },
-      {
-        id: 4,
-        title: 'Task 4',
-        description: 'Description of Task 4',
-        status: 'pending',
-        createdAt: new Date().toISOString(),
-
-      },
-      {
-        id: 5,
-        title: 'Task 5',
-        description: 'Description of Task 5',
-        status: 'completed',
-        createdAt: new Date().toISOString(),
       }
     ]
   },
   reducers: {
-    postTask: (state, action) => {
-      const newTask = {
-        title: action.payload.title,
-        description: action.payload.description
-      }
-
-      API.post('/tasks', newTask, action.payload.token)
-      .then((res) => {
-        if(res) state.listTasks.push(res)
-      })
+  },
+  extraReducers: (builder) => {
+      builder
+        .addCase(postTask.fulfilled, (state, action) => {
+          state.listTasks.push(action.payload);
+        })
+        .addCase(putTask.fulfilled, (state, action) => {
+        	state.listTasks = state.listTasks.map((task) =>
+            task.id === action.payload.id ? action.payload : task
+          );
+        })
     },
-    // putTask: (state, action) => {
-
-    // }
-  }
 })
 
-export const { } = taskSlice.actions
+// export const { postTask } = taskSlice.actions
 export default taskSlice.reducer

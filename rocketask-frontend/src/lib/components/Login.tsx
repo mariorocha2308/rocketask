@@ -12,33 +12,33 @@ import { session } from "../redux/slices/user.slice";
 const Login = () => {
 	const dispatch = useAppDispatch()
 	const router = useRouter()
-	// const [header, setHeader] = useState({
-	// 	title: 'Please enter your credentials to continue.',
-	// 	status: 'OK'
-	// })
+	const [header, setHeader] = useState({
+		title: 'Please enter your credentials to continue.',
+		status: 'OK'
+	})
 	const loginForm = useRef<{ user: string; password: string }>({
-		user: "user",
+		user: "admin",
 		password: "1234",
 	});
 
 	const handleSubmitAuth = async (e) => {
 		e.preventDefault();
 
-		const res = await API.post('users/auth', loginForm.current)
-		// if (res?.msg) {
-		// 	setHeader({title: res.msg, status: 'ERROR'})
-		// 	setTimeout(() => {
-		// 		setHeader({
-		// 			title: 'Please enter your credentials to continue.',
-		// 			status: 'OK'
-		// 		})
-		// 		return;
-		// 	},3000)
-		// 	return;
-		// };
+		const res = await API.post('/users/auth', loginForm.current)
+		if (res?.msg) {
+			setHeader({title: res.msg, status: 'ERROR'})
+			setTimeout(() => {
+				setHeader({
+					title: 'Please enter your credentials to continue.',
+					status: 'OK'
+				})
+				return;
+			},3000)
+			return;
+		};
 
-		dispatch(session(res))
-		setCookie("session", res)
+		dispatch(session(res.data))
+		setCookie("session", res.data)
 		router.push('/dashboard')
 	};
 
@@ -48,12 +48,12 @@ const Login = () => {
 
 	return (
 		<section className="w-full mt-5">
+		<p className={`mt-2 text-sm font-medium ${header.status === 'OK' ? 'text-gray-500' : 'text-red-500'}`}>
+			{header.title}
+		</p>
 			{/* <div className="shadow-md p-8 rounded-lg text-center mt-10">
 				<header>
 					<h2 className="text-2xl font-semibold">Login</h2>
-					<p className={`mt-2 text-sm font-medium ${header.status === 'OK' ? 'text-gray-500' : 'text-red-500'}`}>
-						{header.title}
-					</p>
 				</header>
 				<form className="flex gap-2 flex-col pt-7" onSubmit={handleSubmitAuth}>
 					<div className="flex flex-col text-start gap-2">

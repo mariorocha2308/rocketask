@@ -19,11 +19,11 @@ async function send({ method, path, data, token }: SendOptions): Promise<any> {
 	}
 
 	if (token) {
-		opts.headers["Authorization"] = `Token ${token}`;
+		opts.headers["Authorization"] = `Bearer ${token}`;
 	}
 
 	try {
-		const res = await fetch(`${base}/${path}`, opts);
+		const res = await fetch(`${base}${path}`, opts);
 		const response = await res.json();
 		if (res.ok || res.status === 422) {
 			return response ?? {};
