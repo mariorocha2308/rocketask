@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { postTask, putTask } from "../redux/slices/task.slice";
 
@@ -7,6 +7,7 @@ import { postTask, putTask } from "../redux/slices/task.slice";
 const TaskForm = (props) => {
 	const dispatch = useAppDispatch();
 	const session = useAppSelector(state => state.user)
+	const [error, setError] = useState('')
 	const taskForm = useRef({
 		title: props.data.title || "",
 		description: props.data.description || "",
@@ -14,7 +15,18 @@ const TaskForm = (props) => {
 
 	const handleTask = (e) => {
 		e.preventDefault();
+
 		if(Object.values(taskForm.current).includes('')) return
+		console.log(taskForm.current.title)
+		if(taskForm.current.title.length <= 5) {
+			setError('Titulo no puede contener menos de 5 caracteres')
+
+			setTimeout(() => {
+				setError('')
+				return;
+			},3000)
+			return;
+		}
 
 		console.log(taskForm.current)
 
@@ -35,8 +47,13 @@ const TaskForm = (props) => {
 	};
 
 	return (
-		<section className="flex flex-col mt-10 bg-white p-8 rounded-sm shadow-md sm:w-full md:max-w-2xl m-auto">
+		<section className="flex flex-col mt-10 bg-white p-8 rounded-sm shadow-md sm:w-full md:max-w-2xl m-auto gap-3">
 			<form className="flex flex-col w-full m-auto" onSubmit={handleTask}>
+				{error && (
+					<div className="bg-red-300 py-4 px-2 rounded-md text-white font-semibold">
+						<label htmlFor="alert">{error}</label>
+					</div>
+				)}
 				<h4 className="font-semibold">Create new task</h4>
 				<input
 					type="text"
